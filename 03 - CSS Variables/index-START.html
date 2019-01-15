@@ -24,7 +24,14 @@
 
     /*
       misc styles, nothing to do with CSS variables
+      x. create css variables for root/doc. need blur, color, size
+      attach them to img
     */
+    :root {
+      --blur: 10px;
+      --base: #ffc600;
+      --spacing: 10px;
+    }
 
     body {
       text-align: center;
@@ -42,9 +49,30 @@
     input {
       width: 100px;
     }
-  </style>
 
+    img {
+      filter: blur(var(--blur));
+      background: var(--base);
+      padding: var(--spacing);
+    }
+  </style>
+<!-- select all inputs to nodelist
+  then using foreach, add event listener
+  when input changes, change variable to the value of current input
+  get current input, add suffix, then change style w/ js -->
   <script>
+    const inputs = document.querySelectorAll('.controls input');
+
+    const handleInput = function () {
+      const suffix = this.dataset.sizing || '';
+      document.querySelector('img').style.setProperty(`--${this.name}`, this.value + suffix)
+    }
+
+    inputs.forEach((input) => {
+      input.addEventListener('change', handleInput);
+      input.addEventListener('mousemove', handleInput);
+    });
+
   </script>
 
 </body>
