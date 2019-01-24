@@ -16,6 +16,47 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+const input = document.querySelector('input');
+const suggestions = document.querySelector('.suggestions');
+
+const places = [];
+var promise = fetch(endpoint)
+                .then(data => data.json())
+                .then(city => places.push(...city))
+                .catch(err => console.log(err));
+
+
+  //highlight each search term in result
+  //if the item matches the regex, replace it with highlighted version of the item
+  var replaceMatches = (value, string) => {
+     let regex = new RegExp(value, 'gi')
+      return string.replace(regex, `<span class="hl">${value}</span>`);
+  }
+
+
+var searchInput = (e) => {
+  // console.log(e.target.value)
+  let value = e.target.value;
+  let regex = new RegExp(value, 'gi')
+  //need value to not be affected by caps or lower case
+  var list = places.filter(place => place.city.match( regex) || place.state.match(regex) )
+  //append each item in list to suggestions
+  var html = list.map( item => {
+    // item.city = replaceMatches(value, item.city);
+    // item.state = replaceMatches(value, item.state);
+    return `<li>
+      <span class="name">${replaceMatches(value, item.city) + ', ' + replaceMatches(value, item.state)}</span>
+      <span class="population">${item.population}</span>
+    </li>`
+  }).join(' ');
+  suggestions.innerHTML = html;
+
+  
+}
+
+//get search term as input
+input.addEventListener('keyup', searchInput);
+
 
 </script>
 </body>
