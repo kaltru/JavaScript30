@@ -96,6 +96,31 @@
   </div>
 
 <script>
+  const inputs = [...document.querySelectorAll('input')];
+
+  const handleClick = (e) => {
+    const checked = [...document.querySelectorAll('input:checked')];
+    if (checked.length ===2 && e.shiftKey) {
+      let j = inputs.indexOf(checked[0]);
+      let k = inputs.indexOf(checked[1]);
+      let start = 0;
+      let end = inputs.length;
+      if (j<k) {
+        start = j;
+        end = k;
+      } else {
+        start = k;
+        end = j;
+      }
+      for (var i =start ; i < end; i++) {
+        inputs[i].checked = true;
+      }
+    }
+}
+
+  inputs.forEach(input => {
+    input.addEventListener('click', handleClick);    
+    })
 </script>
 </body>
 </html>
