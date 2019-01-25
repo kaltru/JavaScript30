@@ -7,6 +7,24 @@
 </head>
 <body>
 <script>
+const keys = [];
+const code = 'kalei';
+let flag = false;
+const saveKey = (e) => {
+  keys.push(e.key);
+  //now save only the length of the code
+  keys.splice(-code.length-1, keys.length-code.length);
+  //now check if equal
+  console.log(keys)
+
+  if (keys.join('') === code) {
+    cornify_add();
+  }
+}
+
+
+window.addEventListener('keydown', saveKey)
+
 </script>
 </body>
 </html>
