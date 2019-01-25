@@ -57,6 +57,26 @@
         if (callNow) func.apply(context, args);
       };
     }
+    const imgs = document.querySelectorAll('.slide-in');
+    const handleScroll = (e)=> {
+      //check if scroll shows half of image but not over bottom of img
+      //if yes, add .active to img class
+      // let view = window.innerHeight + window.scrollY - img.height /2
+      
+      imgs.forEach(img => {
+        let slide = (window.innerHeight + window.scrollY) - img.height /2
+        let bottom = img.offsetTop + img.height
+        let isActive = slide > img.offsetTop && window.scrollY < bottom ? true: false;
+        if (isActive) {
+          img.classList.add('active');
+        }
+      })
+      // console.log(imgs)
+    }
+    //put scroll listener on window
+    window.addEventListener('scroll', (e) => debounce(handleScroll(e)));
+    // window.addEventListener('scroll', handleScroll);
+
 
   </script>
 
