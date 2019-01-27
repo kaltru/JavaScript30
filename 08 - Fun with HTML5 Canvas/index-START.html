@@ -7,6 +7,54 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let lastX = 0;
+  let lastY = 0;
+  
+  let width = 10;
+  let color = 0;
+  function isDrawing (e) {
+    ctx.lineWidth = width;
+    ctx.strokeStyle = `hsl(${color}, 100%, 50%)`;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    //reassign lastx and lasty!!!
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+
+
+    //handle resizing of stroke
+    if (width > 300) {
+      width = 1;
+    }
+    width++;
+
+
+    //handle color of stroke!
+    if (color > 357) {
+      color = 0;
+    }
+    color++;
+
+  }
+
+
+  let mousedown = false;
+  canvas.addEventListener('mousedown', (e) => {
+    mousedown = true;
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+    });
+  canvas.addEventListener('mousemove', (e) => mousedown && isDrawing(e));
+  canvas.addEventListener('mouseup', () => mousedown=false);
 </script>
 
 <style>
